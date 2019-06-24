@@ -16,6 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from reviewer.views import JoinUsView, ReviewerListView
+
 urlpatterns = [
+    path('', ReviewerListView.as_view(), name='reviewers'),
     path('admin/', admin.site.urls),
+    path('joinus/', JoinUsView.as_view(), name='joinus')
 ]

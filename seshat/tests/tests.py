@@ -1,4 +1,6 @@
+from django.shortcuts import reverse
 from reviewer.models import Reviewer, Service, Team, TeamMember
+from reviewer.forms import ReviewerModelForm
 
 
 def test_model_object_create():
@@ -22,3 +24,14 @@ def test_model_object_create():
         team=team
     )
     assert isinstance(team_member, TeamMember)
+
+
+def test_user_create_view(client):
+    resp = client.get(reverse('joinus'))
+    assert resp.status_code == 200
+    assert isinstance(resp.context_data.get('form'), ReviewerModelForm)
+
+
+def test_root_page_is_reveiwers(client):
+    resp = client.get(reverse('reviewers'))
+    assert resp.status_code == 200

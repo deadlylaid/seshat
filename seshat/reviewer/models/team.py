@@ -10,5 +10,4 @@ class Team(models.Model):
 
 class TeamMember(models.Model):
     user = models.ForeignKey(Reviewer, on_delete=models.CASCADE)
-
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
