@@ -1,5 +1,6 @@
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.db import models
+from django.shortcuts import reverse
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, username, password):
@@ -31,3 +32,6 @@ class Reviewer(AbstractBaseUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
+
+    def get_absolute_url(self):
+        return reverse('reviewers')
