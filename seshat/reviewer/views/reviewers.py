@@ -4,6 +4,6 @@ from reviewer.models import Reviewer
 
 
 class ReviewerListView(LoginRequiredMixin, ListView):
-    login_url = 'joinus'
+    login_url = 'login'
     model = Reviewer
     template_name = 'reviewer/list.html'

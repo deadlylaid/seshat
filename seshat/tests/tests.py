@@ -1,6 +1,6 @@
+from django.contrib.auth import get_user
 from django.shortcuts import reverse
 from reviewer.models import Reviewer, Service, Team, TeamMember
-from reviewer.forms import ReviewerModelForm
 
 
 def test_model_object_create(access_db):
@@ -26,6 +26,19 @@ def test_model_object_create(access_db):
     assert isinstance(team_member, TeamMember)
 
 
+def test_login_view_get_status_200(client, user):
+    resp = client.get(reverse('login'))
+    assert resp.status_code == 200
+    assert resp.context_data.get('form')
+
+
+def test_login_view_post(client, user, access_db):
+    resp = client.post(reverse('login'), data={'username': 'test@test.com', 'password': 'test12'})
+    user = get_user(client)
+    assert resp.status_code == 302
+    assert user.is_authenticated
+
+
 def test_joinus_view_get_status_200(client, user):
     resp = client.get(reverse('joinus'))
     assert resp.status_code == 200
@@ -44,7 +57,7 @@ def test_reviewer_listview_only_loggined_user(client, user, access_db):
     resp = client.get(reverse('reviewers'))
 
     assert resp.status_code == 302
-    assert resp.url == reverse('joinus') + '?next=/'
+    assert resp.url == reverse('login') + '?next=/'
 
     client.login(email='test@test.com', password='test12')
 
