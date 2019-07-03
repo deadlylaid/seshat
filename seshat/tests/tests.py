@@ -38,6 +38,14 @@ def test_login_view_post(client, user, access_db):
     assert resp.status_code == 302
     assert user.is_authenticated
 
+def test_logout_view_status_302(client, user, access_db):
+    client.post(reverse('login'), data={'username': 'test@test.com', 'password': 'test12'})
+    resp = client.get(reverse('logout'))
+    user = get_user(client)
+    assert resp.status_code == 302
+    assert not user.is_authenticated
+
+
 
 def test_joinus_view_get_status_200(client, user):
     resp = client.get(reverse('joinus'))

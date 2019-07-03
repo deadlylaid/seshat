@@ -1,5 +1,5 @@
-from django.contrib.auth import login
-from django.views.generic import CreateView, FormView
+from django.contrib.auth import login, logout
+from django.views.generic import CreateView, FormView, RedirectView
 from django.shortcuts import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
@@ -28,6 +28,14 @@ class LogInView(FormView):
         login(self.request, form.get_user())
         return super().form_valid(form)
 
-    def form_invalid(self, form):
-        print('fuck')
-        return super().form_invalid(form)
+
+class LogOutView(RedirectView):
+
+    # permanent 가 true 이면 status code = 301
+    # False 이면 status code = 302
+    permanent = False
+
+    def get_redirect_url(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            logout(self.request)
+        return reverse('reviewers')
