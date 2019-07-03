@@ -10,6 +10,7 @@ test_requries = (
     'pytest-cov',
     'pytest-pythonpath',
     'tox',
+    'django-extensions',
 )
 
 setup(

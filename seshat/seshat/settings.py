@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'reviewer',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -116,3 +117,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'reviewer.Reviewer'
+
+SESSION_COOKIE_AGE = 10
+SESSION_SAVE_EVERY_REQUEST = True
