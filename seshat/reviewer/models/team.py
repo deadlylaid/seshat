@@ -1,5 +1,5 @@
 from django.db import models
-from reviewer.models import Reviewer
+from .reviewer import Reviewer
 
 
 class Team(models.Model):

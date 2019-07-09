@@ -30,7 +30,6 @@ class LogInView(FormView):
 
 
 class LogOutView(RedirectView):
-
     # permanent 가 true 이면 status code = 301
     # False 이면 status code = 302
     permanent = False

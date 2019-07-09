@@ -1,5 +1,6 @@
 import pytest
-from reviewer.models import Reviewer
+from reviewer.models import Reviewer, Service, Team, TeamMember, Project
+
 
 @pytest.fixture
 def access_db(db):
@@ -15,8 +16,23 @@ def access_db(db):
 @pytest.fixture(scope='module')
 def user(django_db_blocker):
     with django_db_blocker.unblock():
-        Reviewer.objects.create_user(
+        reviewer = Reviewer.objects.create_user(
             email='test@test.com',
             username='test',
             password='test12'
+        )
+        service = Service.objects.create(
+            name='github',
+        )
+        team = Team.objects.create(
+            name='LAB',
+        )
+        TeamMember.objects.create(
+            team=team,
+            user=reviewer,
+        )
+        project = Project.objects.create(
+            team = team,
+            name = 'gaia',
+            nickname='gaia',
         )

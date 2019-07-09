@@ -12,7 +12,6 @@ def test_model_object_create(access_db):
     assert isinstance(reviewer, Reviewer)
     service = Service.objects.create(
         name="Bitbucket",
-        api='https://api.bitbucket.org/2.0/'
     )
     assert isinstance(service, Service)
     team = Team.objects.create(
