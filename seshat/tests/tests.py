@@ -38,13 +38,13 @@ def test_login_view_post(client, user, access_db):
     assert resp.status_code == 302
     assert user.is_authenticated
 
+
 def test_logout_view_status_302(client, user, access_db):
     client.post(reverse('login'), data={'username': 'test@test.com', 'password': 'test12'})
     resp = client.get(reverse('logout'))
     user = get_user(client)
     assert resp.status_code == 302
     assert not user.is_authenticated
-
 
 
 def test_joinus_view_get_status_200(client, user):
@@ -60,6 +60,9 @@ def test_joinus_view_post_success(client, access_db):
     assert resp.url == reverse('reviewers')
     assert Reviewer.objects.get(email='joinus@test.com')
 
+    client.post(reverse('login'), data={'username': 'joinus@test.com', 'password': 'joinus'})
+    user = get_user(client)
+    assert user.is_authenticated
 
 def test_reviewer_listview_only_loggined_user(client, user, access_db):
     resp = client.get(reverse('reviewers'))
