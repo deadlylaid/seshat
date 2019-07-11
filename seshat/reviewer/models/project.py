@@ -1,6 +1,7 @@
 from django.db import models
 from .team import Team
 
+
 class Project(models.Model):
     team = models.ForeignKey(
         Team,
@@ -14,4 +15,12 @@ class Project(models.Model):
     # using in api urls
     nickname = models.CharField(
         max_length=30,
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True,
     )

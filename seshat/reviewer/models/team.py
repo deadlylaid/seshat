@@ -7,6 +7,10 @@ class Team(models.Model):
         max_length=20,
     )
 
+    uuid = models.CharField(
+        max_length=40,
+    )
+
 
 class TeamMember(models.Model):
     user = models.ForeignKey(Reviewer, on_delete=models.CASCADE)

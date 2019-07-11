@@ -25,7 +25,8 @@ def user(django_db_blocker):
             name='github',
         )
         team = Team.objects.create(
-            name='LAB',
+            name='TEST',
+            uuid='{TEST}',
         )
         TeamMember.objects.create(
             team=team,
