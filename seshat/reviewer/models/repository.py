@@ -2,7 +2,7 @@ from django.db import models
 from .team import Team
 
 
-class Project(models.Model):
+class Repository(models.Model):
     team = models.ForeignKey(
         Team,
         on_delete=models.CASCADE,

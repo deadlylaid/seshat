@@ -1,5 +1,5 @@
 import pytest
-from reviewer.models import Reviewer, Service, Team, TeamMember, Project
+from reviewer.models import Reviewer, Service, Team, TeamMember, Repository
 
 
 @pytest.fixture
@@ -32,7 +32,7 @@ def user(django_db_blocker):
             team=team,
             user=reviewer,
         )
-        project = Project.objects.create(
+        repository = Repository.objects.create(
             team = team,
             name = 'gaia',
             nickname='gaia',
