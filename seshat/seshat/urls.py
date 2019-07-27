@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from reviewer.views import JoinUsView, ReviewerListView, LogInView, LogOutView
+from reviewer.views import JoinUsView, ReviewerListView, LogInView, LogOutView, WebHookView
 
 urlpatterns = [
     path('', ReviewerListView.as_view(), name='reviewers'),
@@ -24,4 +24,6 @@ urlpatterns = [
     path('joinus/', JoinUsView.as_view(), name='joinus'),
     path('login/', LogInView.as_view(), name='login'),
     path('logout/', LogOutView.as_view(), name='logout'),
+
+    path('webhook/', WebHookView.as_view(), name='webhook'),
 ]

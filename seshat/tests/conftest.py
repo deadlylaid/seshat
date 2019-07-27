@@ -33,7 +33,7 @@ def user(django_db_blocker):
             user=reviewer,
         )
         repository = Repository.objects.create(
-            team = team,
-            name = 'gaia',
+            team=team,
+            name='gaia',
             nickname='gaia',
         )

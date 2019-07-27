@@ -1,3 +1,5 @@
+import json
+from .initial_values import WEBHOOK_DATA
 from django.contrib.auth import get_user
 from django.shortcuts import reverse
 from reviewer.models import Reviewer, Service, Team, TeamMember
@@ -63,6 +65,7 @@ def test_joinus_view_post_success(client, access_db):
     user = get_user(client)
     assert user.is_authenticated
 
+
 def test_reviewer_listview_only_loggined_user(client, user, access_db):
     resp = client.get(reverse('reviewers'))
 
@@ -75,3 +78,9 @@ def test_reviewer_listview_only_loggined_user(client, user, access_db):
 
     assert resp.status_code == 200
     assert len(resp.context_data.get('object_list')) == 1
+
+
+def test_webhook_status_200(client):
+    resp = client.post(reverse('webhook'), data={'data': WEBHOOK_DATA})
+    assert resp.content.decode() == 'jadehan'
+    assert resp.status_code == 200
