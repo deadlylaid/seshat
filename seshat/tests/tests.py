@@ -2,7 +2,7 @@ import json
 from .initial_values import WEBHOOK_DATA
 from django.contrib.auth import get_user
 from django.shortcuts import reverse
-from reviewer.models import Reviewer, Service, Team, TeamMember
+from reviewer.models import Reviewer, Service, Repository, Review
 
 
 def test_model_object_create(access_db):
@@ -16,15 +16,17 @@ def test_model_object_create(access_db):
         name="Bitbucket",
     )
     assert isinstance(service, Service)
-    team = Team.objects.create(
-        name='JadeTeam',
+    repository = Repository.objects.create(
+        name='gaia-finder',
+        nickname='gaia'
     )
-    assert isinstance(team, Team)
-    team_member = TeamMember.objects.create(
-        user=reviewer,
-        team=team
+    review = Review.objects.create(
+        reviewer=reviewer,
+        repository=repository,
+        title='first pullrequest',
+        status='open',
     )
-    assert isinstance(team_member, TeamMember)
+    assert isinstance(review, Review)
 
 
 def test_login_view_get_status_200(client, user):
@@ -34,7 +36,7 @@ def test_login_view_get_status_200(client, user):
 
 
 def test_login_view_post(client, user, access_db):
-    resp = client.post(reverse('login'), data={'username': 'test@test.com', 'password': 'test12'})
+    resp = client.post(reverse('login'), data={'username': 'jadehan@test.com', 'password': 'test12'})
     user = get_user(client)
     assert resp.status_code == 302
     assert user.is_authenticated
@@ -72,7 +74,7 @@ def test_reviewer_listview_only_loggined_user(client, user, access_db):
     assert resp.status_code == 302
     assert resp.url == reverse('login') + '?next=/'
 
-    client.login(email='test@test.com', password='test12')
+    client.login(email='jadehan@test.com', password='test12')
 
     resp = client.get(reverse('reviewers'))
 
@@ -80,7 +82,9 @@ def test_reviewer_listview_only_loggined_user(client, user, access_db):
     assert len(resp.context_data.get('object_list')) == 1
 
 
-def test_webhook_status_200(client):
-    resp = client.post(reverse('webhook'), data={'data': WEBHOOK_DATA})
-    assert resp.content.decode() == 'jadehan'
+def test_webhook_status_200(client, user, access_db):
+    resp = client.post(reverse('webhook'), WEBHOOK_DATA.encode(), content_type="application/json")
     assert resp.status_code == 200
+
+    reviewer = Reviewer.objects.get(username='jadehan')
+    assert bool(reviewer.review_set.get(title='pullrequest-title')) == True

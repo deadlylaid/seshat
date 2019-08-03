@@ -1,5 +1,5 @@
 import pytest
-from reviewer.models import Reviewer, Service, Team, TeamMember, Repository
+from reviewer.models import Reviewer, Service, Repository, Review
 
 
 @pytest.fixture
@@ -17,23 +17,21 @@ def access_db(db):
 def user(django_db_blocker):
     with django_db_blocker.unblock():
         reviewer = Reviewer.objects.create_user(
-            email='test@test.com',
-            username='test',
+            email='jadehan@test.com',
+            username='jadehan',
             password='test12'
         )
         service = Service.objects.create(
             name='github',
         )
-        team = Team.objects.create(
-            name='TEST',
-            uuid='{TEST}',
-        )
-        TeamMember.objects.create(
-            team=team,
-            user=reviewer,
-        )
         repository = Repository.objects.create(
-            team=team,
-            name='gaia',
-            nickname='gaia',
+            name='data',
+            nickname='data',
+        )
+        review = Review.objects.create(
+            reviewer=reviewer,
+            repository=repository,
+            title='first pullrequest',
+            status='OPEN',
+            branch='feature/abcd'
         )

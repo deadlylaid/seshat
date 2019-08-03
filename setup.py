@@ -1,7 +1,7 @@
 from setuptools import setup
 
 install_requires = (
-    'django>=2.1'
+    'django>=2.1',
 )
 
 test_requries = (
