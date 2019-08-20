@@ -35,3 +35,6 @@ class Reviewer(AbstractBaseUser):
 
     def get_absolute_url(self):
         return reverse('reviewers')
+
+    def reviews(self):
+        return self.review_set.filter(status='OPEN')

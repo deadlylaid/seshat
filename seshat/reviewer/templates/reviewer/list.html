@@ -8,8 +8,15 @@
     <title>Reviewer List</title>
 </head>
 <body>
-{% for obj in object_list%}
-    {{obj}}
+{% for obj in object_list %}
+    {{ obj }} ( {{ obj.reviews|length }} )
+    <ul>
+        <li>
+            {% for review in obj.reviews %}
+                {{ review.title }}
+            {% endfor %}
+        </li>
+    </ul>
 {% endfor %}
 </body>
 </html>

@@ -68,7 +68,7 @@ def test_joinus_view_post_success(client, access_db):
     assert user.is_authenticated
 
 
-def test_reviewer_listview_only_loggined_user(client, user, access_db):
+def test_reviewer_listview(client, user, access_db):
     resp = client.get(reverse('reviewers'))
 
     assert resp.status_code == 302
@@ -79,7 +79,9 @@ def test_reviewer_listview_only_loggined_user(client, user, access_db):
     resp = client.get(reverse('reviewers'))
 
     assert resp.status_code == 200
-    assert len(resp.context_data.get('object_list')) == 1
+    _reviewer = resp.context_data.get('object_list')[0]
+    assert _reviewer.username == 'jadehan'
+    assert len(_reviewer.reviews()) == 1
 
 
 def test_webhook_status_200(client, user, access_db):

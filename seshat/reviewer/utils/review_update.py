@@ -6,7 +6,6 @@ def review_update(parsed_data):
         name=parsed_data.repository,
         defaults={'nickname': parsed_data.repository},
     )
-
     if parsed_data.status == 'OPEN':
         for reviewer in parsed_data.reviewers:
             _reviewer = Reviewer.objects.get(username=reviewer)
@@ -18,7 +17,7 @@ def review_update(parsed_data):
                 branch=parsed_data.branch
             )
     elif parsed_data.status == 'DECLINED' or parsed_data.status == 'MERGED':
-        review = Reviewer.objects.filter(
+        review = Review.objects.filter(
             branch=parsed_data.branch,
             status='OPEN'
         )

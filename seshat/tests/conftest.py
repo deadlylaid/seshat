@@ -35,3 +35,11 @@ def user(django_db_blocker):
             status='OPEN',
             branch='feature/abcd'
         )
+        decliend_review = Review.objects.create(
+            reviewer=reviewer,
+            repository=repository,
+            title='decliend pullrequest',
+            status='DECLIEND',
+            branch='feature/fail'
+        )
+
