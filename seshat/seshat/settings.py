@@ -115,10 +115,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
 
 AUTH_USER_MODEL = 'reviewer.Reviewer'
 
-SESSION_COOKIE_AGE = 10
+SESSION_COOKIE_AGE = 100
 SESSION_SAVE_EVERY_REQUEST = True
 
 # webhook에서 post 요청 시 url의 마지막이 '/' 로 끝나지 않아도 요청을 허용함

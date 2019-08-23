@@ -1,22 +1,22 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Reviewer List</title>
-</head>
-<body>
-{% for obj in object_list %}
-    {{ obj }} ( {{ obj.reviews|length }} )
-    <ul>
-        <li>
-            {% for review in obj.reviews %}
-                {{ review.title }}
+{% extends "base.html" %}
+{% block title %}Reviewer List{% endblock %}
+
+{% block content %}
+    <div class="row mt-5">
+        <h1>Reviewers</h1>
+    </div>
+    <div class="row mt-5">
+        <div class="col">
+            {% for obj in object_list %}
+                {{ obj }} ( {{ obj.reviews|length }} )
+     {          <ul>
+                    <li>
+                        {% for review in obj.reviews %}
+                            {{ review.title }}
+                        {% endfor %}
+                    </li>
+                </ul>
             {% endfor %}
-        </li>
-    </ul>
-{% endfor %}
-</body>
-</html>
+        </div>
+    </div>
+{% endblock %}
