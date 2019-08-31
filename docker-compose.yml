@@ -1,0 +1,9 @@
+version: '3'
+services:
+  seshat:
+    build: .
+    image: deadlylaid/seshat:test
+    container_name: seshat
+    ports:
+      - "8080:8080"
+    network_mode: bridge
