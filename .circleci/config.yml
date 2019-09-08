@@ -16,6 +16,7 @@ jobs:
           command: |
             python3 -m venv boot
             . boot/bin/activate
+            pip install -e .[test]
       # TEST
       - run:
           name: run tests
