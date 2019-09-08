@@ -3,9 +3,9 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/python:3.7.3
+      - image: deadlylaid/seshat:0.0.1
 
-    working_directory: ~/repo
+    working_directory: ~/seshat
 
     steps:
       - checkout
@@ -14,12 +14,9 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            python3 -m venv boot
-            . boot/bin/activate
             pip install -e .[test]
       # TEST
       - run:
           name: run tests
           command: |
-            . boot/bin/activate
-            tox
+            pytest -s --cov=seshat/reviewer --cov-report=term-missing
