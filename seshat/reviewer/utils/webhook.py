@@ -2,7 +2,7 @@ import json
 
 from collections import namedtuple
 
-ParsedData = namedtuple('ParsedData', ('reviewers', 'repository', 'title', 'status', 'branch'))
+ParsedData = namedtuple('ParsedData', ('reviewers', 'repository', 'title', 'status', 'url', 'pullrequest_id'))
 
 
 class WebHookParser:
@@ -24,8 +24,9 @@ class WebHookParser:
             repository = self._data['repository']['name']
             title = self._data['pullrequest']['title']
             status = self._data['pullrequest']['state']
-            branch = self._data['pullrequest']['source']['branch']['name']
-            return ParsedData(reviewers, repository, title, status, branch)
+            url = self._data['pullrequest']['links']['html']['href']
+            pullrequest_id = self._data['pullrequest']['id']
+            return ParsedData(reviewers, repository, title, status, url, pullrequest_id)
 
     def _github_parsing(self, _data):
         raise NotImplementedError

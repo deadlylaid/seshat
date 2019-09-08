@@ -9,10 +9,10 @@
         <div class="col">
             {% for obj in object_list %}
                 {{ obj }} ( {{ obj.reviews|length }} )
-     {          <ul>
+                <ul>
                     <li>
                         {% for review in obj.reviews %}
-                            {{ review.title }}
+                            <a href="{{ review.url }}">{{ review.title }}</a>
                         {% endfor %}
                     </li>
                 </ul>

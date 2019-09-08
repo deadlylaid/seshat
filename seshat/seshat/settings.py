@@ -24,7 +24,7 @@ SECRET_KEY = 'va$6w8)10o%bqj=0v_k&gn^=3dn20z4+u=#im4f#iz=!i*+tj4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'reviewer',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
@@ -120,7 +121,7 @@ STATICFILES_DIRS = [
 
 AUTH_USER_MODEL = 'reviewer.Reviewer'
 
-SESSION_COOKIE_AGE = 100
+SESSION_COOKIE_AGE = 3600
 SESSION_SAVE_EVERY_REQUEST = True
 
 # webhook에서 post 요청 시 url의 마지막이 '/' 로 끝나지 않아도 요청을 허용함

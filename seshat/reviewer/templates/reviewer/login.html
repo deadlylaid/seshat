@@ -23,8 +23,9 @@
                     {{ form.password }}
                 </label>
                 <div class="row mt-3"></div>
-                <input type="submit" class="btn-dark rounded xfull">
+                <input type="submit" class="btn-dark rounded xfull btn-block" value="로그인">
                 {{ form.errors }}
+                <a href="{% url 'joinus' %}" class="btn-dark rounded xfull btn-block">회원가입</a>
             </form>
         </div>
         <div class="col"></div>

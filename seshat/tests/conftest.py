@@ -31,15 +31,16 @@ def user(django_db_blocker):
         review = Review.objects.create(
             reviewer=reviewer,
             repository=repository,
-            title='first pullrequest',
+            title='pullrequest-title',
             status='OPEN',
-            branch='feature/abcd'
+            url='https://bitbucket.org/jadehan/data/pull-requests/3',
+            pullrequest_id=3,
         )
         decliend_review = Review.objects.create(
             reviewer=reviewer,
             repository=repository,
             title='decliend pullrequest',
             status='DECLIEND',
-            branch='feature/fail'
+            pullrequest_id=4,
         )
 

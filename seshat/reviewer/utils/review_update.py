@@ -14,11 +14,15 @@ def review_update(parsed_data):
                 repository=_repository,
                 title=parsed_data.title,
                 status=parsed_data.status,
-                branch=parsed_data.branch
+                url=parsed_data.url,
+                pullrequest_id=parsed_data.pullrequest_id
             )
     elif parsed_data.status == 'DECLINED' or parsed_data.status == 'MERGED':
+
+
         review = Review.objects.filter(
-            branch=parsed_data.branch,
+            repository=_repository,
+            pullrequest_id=parsed_data.pullrequest_id,
             status='OPEN'
         )
         if review:

@@ -1,5 +1,5 @@
-import json
-from .initial_values import WEBHOOK_DATA
+import pytest
+from .initial_values import *
 from django.contrib.auth import get_user
 from django.shortcuts import reverse
 from reviewer.models import Reviewer, Service, Repository, Review
@@ -84,9 +84,42 @@ def test_reviewer_listview(client, user, access_db):
     assert len(_reviewer.reviews()) == 1
 
 
-def test_webhook_status_200(client, user, access_db):
-    resp = client.post(reverse('webhook'), WEBHOOK_DATA.encode(), content_type="application/json")
+@pytest.mark.parametrize('prq_status, bool_result, content, username, repository, prq_id, url',
+                         [
+                            (EX_OP_WH.prq_status, EX_OP_WH.bool_result, EX_OP_WH.content, EX_OP_WH.username, EX_OP_WH.repository, EX_OP_WH.prq_id, EX_OP_WH.url),
+                            (EX_DC_WH.prq_status, EX_DC_WH.bool_result, EX_DC_WH.content, EX_DC_WH.username, EX_DC_WH.repository, EX_DC_WH.prq_id, EX_DC_WH.url),
+                            (EX_MG_WH.prq_status, EX_MG_WH.bool_result, EX_MG_WH.content, EX_MG_WH.username, EX_MG_WH.repository, EX_MG_WH.prq_id, EX_MG_WH.url),
+                            (UN_OP_WH.prq_status, UN_OP_WH.bool_result, UN_OP_WH.content, UN_OP_WH.username, UN_OP_WH.repository, UN_OP_WH.prq_id, UN_OP_WH.url),
+                            (UN_DC_WH.prq_status, UN_DC_WH.bool_result, UN_DC_WH.content, UN_DC_WH.username, UN_DC_WH.repository, UN_DC_WH.prq_id, UN_DC_WH.url),
+                            (UN_MG_WH.prq_status, UN_MG_WH.bool_result, UN_MG_WH.content, UN_MG_WH.username, UN_MG_WH.repository, UN_MG_WH.prq_id, UN_MG_WH.url),
+                         ])
+def test_webhook_status_200(prq_status, bool_result, content, username, repository, prq_id, url, client, user, access_db):
+
+    # 먼저 기존 리뷰가 존재하는지 확인한다.
+    exist_review = Review.objects.filter(repository__name=repository, pullrequest_id=prq_id).first()
+
+    # WEBHOOK 을 가정한다.
+    resp = client.post(reverse('webhook'), content.encode(), content_type="application/json")
     assert resp.status_code == 200
 
-    reviewer = Reviewer.objects.get(username='jadehan')
-    assert bool(reviewer.review_set.get(title='pullrequest-title')) == True
+    # Reviewer 와의 외래키 연결을 확인한다.
+    reviewer = Reviewer.objects.filter(username=username).first()
+    assert bool(reviewer.review_set.filter(repository__name=repository, pullrequest_id=prq_id).first()) == bool_result
+
+    review_after_webhook = Review.objects.filter(repository__name=repository, pullrequest_id=prq_id).first()
+
+    if exist_review:
+        if prq_status == 'OPEN':
+            assert review_after_webhook.title == exist_review.title
+            assert review_after_webhook.status == exist_review.status
+            assert review_after_webhook.url == exist_review.url
+        else:
+            assert review_after_webhook.status == prq_status
+            assert review_after_webhook.url == url
+    else:
+        if prq_status == 'OPEN':
+            assert review_after_webhook.status == prq_status
+            assert review_after_webhook.url == url
+        else:
+            assert review_after_webhook is None
+

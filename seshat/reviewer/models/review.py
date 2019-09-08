@@ -15,4 +15,5 @@ class Review(models.Model):
     repository = models.ForeignKey(Repository, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
     status = models.CharField(max_length=8, choices=STATUS_FIELDS)
-    branch = models.CharField(max_length=150)
+    url = models.URLField(max_length=255)
+    pullrequest_id = models.CharField(max_length=6)
