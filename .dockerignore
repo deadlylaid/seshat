@@ -1,0 +1,8 @@
+boot
+.git
+.cache
+.circleci
+.idea
+.pytest_cache
+.tox
+seshat/db.sqlite3

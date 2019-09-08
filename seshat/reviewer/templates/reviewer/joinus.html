@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}회원가입{% endblock %}
+{% block content %}
+    <h1>회원가입 페이지입니다.</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        <label for="email">이메일을 입력하세요
+            {{ form.email }}
+        </label>
+        <label for="username">사용할 닉네임을 입력하세요
+            {{ form.username }}
+        </label>
+        <label for="password">비밀번호를 입력하세요
+            {{ form.password }}
+        </label>
+        <input type="submit">
+    </form>
+{% endblock %}

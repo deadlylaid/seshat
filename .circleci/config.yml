@@ -1,0 +1,22 @@
+# Python CircleCI 2.0 configuration file
+version: 2
+jobs:
+  build:
+    docker:
+      - image: deadlylaid/seshat:0.0.1
+
+    working_directory: ~/seshat
+
+    steps:
+      - checkout
+
+      # Install
+      - run:
+          name: install dependencies
+          command: |
+            pip install -e .[test]
+      # TEST
+      - run:
+          name: run tests
+          command: |
+            pytest -s --cov=seshat/reviewer --cov-report=term-missing

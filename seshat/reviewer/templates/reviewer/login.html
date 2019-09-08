@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+    로그인
+{% endblock %}
+
+{% block content %}
+
+    <div class="row mt-5">
+        <div class="col text-center">
+            <h1>로그인 페이지 입니다.</h1>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col"></div>
+        <div class="col text-center">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <label for=""> 이메일을 입력하세요
+                    {{ form.username }}
+                </label><br>
+                <label for=""> 비밀번호를 입력하세요
+                    {{ form.password }}
+                </label>
+                <div class="row mt-3"></div>
+                <input type="submit" class="btn-dark rounded xfull btn-block" value="로그인">
+                {{ form.errors }}
+                <a href="{% url 'joinus' %}" class="btn-dark rounded xfull btn-block">회원가입</a>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+{% endblock %}

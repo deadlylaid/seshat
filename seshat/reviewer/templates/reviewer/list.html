@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Reviewer List{% endblock %}
+
+{% block content %}
+    <div class="row mt-5">
+        <h1>Reviewers</h1>
+    </div>
+    <div class="row mt-5">
+        <div class="col">
+            {% for obj in object_list %}
+                {{ obj }} ( {{ obj.reviews|length }} )
+                <ul>
+                    <li>
+                        {% for review in obj.reviews %}
+                            <a href="{{ review.url }}">{{ review.title }}</a>
+                        {% endfor %}
+                    </li>
+                </ul>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
