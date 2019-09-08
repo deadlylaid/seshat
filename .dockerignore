@@ -5,3 +5,4 @@ boot
 .idea
 .pytest_cache
 .tox
+seshat/db.sqlite3

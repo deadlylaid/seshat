@@ -6,6 +6,8 @@ WORKDIR /seshat
 
 RUN set -ex \
     && pip install -e . \
+    && python seshat/manage.py makemigrations reviewer \
+    && python seshat/manage.py migrate \
     && chmod 777 run.sh
 
 EXPOSE 8080
